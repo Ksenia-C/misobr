@@ -321,4 +321,87 @@ B также подключаемся другим двум серверам:
 
 Редактируем файл с настройками файловой системы HDFS:
 
-``vi /usr/local/hadoop/etc/hadoop/hdfs-site.xml``
+      vi /usr/local/hadoop/etc/hadoop/hdfs-site.xml
+В итоге должно получиться:
+
+      ...
+      <!-- Put site-specific property overrides in this file. -->
+      
+      <configuration>
+         <property>
+            <name>dfs.replication</name>
+            <value>3</value>
+         </property>
+         <property>
+            <name>dfs.name.dir</name>
+            <value>file:///hadoop/hdfs/namenode</value>
+         </property>
+         <property>
+            <name>dfs.data.dir</name>
+            <value>file:///hadoop/hdfs/datanode</value>
+         </property>
+      </configuration>
+Где
+
+_dfs.replication _— количество реплик. Не может быть больше узлов кластера.
+
+
+_dfs.name.dir_ — путь хранения таблицы имен fsimage. Можно перечи
+
+_dfs.data.dir_ — каталог для хранения блоков файловой системой HDFS.
+
+Открываем для редактирования файл для настройки MapReduce:
+
+   vi /usr/local/hadoop/etc/hadoop/mapred-site.xml
+
+Задаем следующие параметры:
+
+      ...
+      <!-- Put site-specific property overrides in this file. -->
+      
+      <configuration>
+         <property>
+            <name>mapreduce.framework.name</name>
+            <value>yarn</value>
+         </property>
+      </configuration>
+
+Где mapreduce.framework.name — фреймворк для управления кластером.
+
+Открываем файл для настройки YARN:
+
+      vi /usr/local/hadoop/etc/hadoop/yarn-site.xml
+
+Приводим его к виду:
+
+      ...
+      <configuration>
+      
+      <!-- Site specific YARN configuration properties -->
+        <property>
+          <name>yarn.nodemanager.aux-services</name>
+          <value>mapreduce_shuffle</value>
+        </property>
+      </configuration>
+
+где yarn.nodemanager.aux-services перечисляет вспомогательные классы обслуживания. По документации рекомендуют использовать mapreduce_shuffle.
+
+Создаем каталоги, которые мы указали для использования HDFS:
+
+      mkdir -p /hadoop/hdfs/{namenode,datanode}
+   
+Для каталога /hadoop выставим в качестве владельца созданного пользователя hadoop:
+
+      chown -R hadoop:hadoop /hadoop
+   
+Наши серверы настроены.
+
+Открываем файл с узлами кластера:
+
+      vi /usr/local/hadoop/etc/hadoop/workers
+   
+И перечислим все slave-узлы:
+
+      haddop2
+      haddop3
+Можно запускать кластер.
