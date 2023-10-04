@@ -142,4 +142,38 @@ _Добавляемый текст:_
 
 **export PATH="$PATH:${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin"**
 
+Выше задаются системные переменные, требующиеся для работы hadoop:
 
+_HADOOP_HOME_ — путь, где находятся файлы hadoop.
+
+_HADOOP_HDFS_HOME_ — директория распределенной файловой системы HDFS.
+
+_HADOOP_MAPRED_HOME_ — необходима для возможности отправки задания MapReduce с помощью MapReduce v2 в YARN.
+
+_HADOOP_COMMON_HOME_ — путь хранения файлов для модуля common.
+
+_HADOOP_COMMON_LIB_NATIVE_DIR_ — место размещения библиотеки native-hadoop.
+
+_HADOOP_OPTS_ — дополнительные опции запуска.
+
+_YARN_HOME_ — путь размещения файлов модуля YARN.
+
+_PATH_ — дополняет общую переменную PATH, где хранятся пути хранения бинарников для запуска приложений.
+
+Теперь откроем файл:
+
+``vi /usr/local/hadoop/etc/hadoop/hadoop-env.sh``
+
+
+Находим:
+
+``# export JAVA_HOME=``
+Меняем на:
+
+``export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64``
+
+_Замечение:_
+Выше прописали актуальный путь до файлов openjdk.
+
+
+### Проверка настройки среды
