@@ -303,19 +303,19 @@ B также подключаемся другим двум серверам:
 
 Приведем его к виду:
 
-<!-- Put site-specific property overrides in this file. -->
-
-<configuration>
-   
-   <property>
-   
-      <name>fs.default.name</name>
+      <!-- Put site-specific property overrides in this file. -->
       
-      <value>hdfs://hadoop1:9000</value>
-   
-   </property>
-
-</configuration>
+      <configuration>
+         
+         <property>
+         
+            <name>fs.default.name</name>
+            
+            <value>hdfs://hadoop1:9000</value>
+         
+         </property>
+      
+      </configuration>
 
 * где fs.default.name указывает на узел и порт обращения к внутренней файловой системе. В нашем примере на мастер-сервер (localhost) порту 9000. Данная настройка должна быть такой на всех нодах.
 
