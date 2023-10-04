@@ -17,19 +17,19 @@
 
 Выполните следующие команды (команды приведены для Ubuntu).
 
-1. Обновление пакетов
+Обновление пакетов
 
-``apt update && apt upgrade``
+      apt update && apt upgrade
 
-2. Настройка брандмауэра
+Настройка брандмауэра
 
-``iptables -I INPUT -p tcp --dport 9870 -j ACCEPT``
-
-
-``iptables -I INPUT -p tcp --dport 8020 -j ACCEPT``
+      iptables -I INPUT -p tcp --dport 9870 -j ACCEPT
 
 
-``iptables -I INPUT -p tcp --match multiport --dports 9866,9864,9867 -j ACCEPT``
+      iptables -I INPUT -p tcp --dport 8020 -j ACCEPT
+
+
+      iptables -I INPUT -p tcp --match multiport --dports 9866,9864,9867 -j ACCEPT
 
 
 где порт:
@@ -47,25 +47,22 @@
 
 Для сохранения правил используем утилиту netfilter-persistent:
 
-``apt install iptables-persistent``
+      apt install iptables-persistent
 
-``netfilter-persistent save``
+      netfilter-persistent save
 
 
-3. Настройка hosts
+Настройка hosts
 На серверах добавить в файл hosts следующее:
 
-``vi /etc/hosts`` – с помощью  этой команды добавляем
+      vi /etc/hosts
 
 _Добавляемый текст:_
 
-**#127.0.1.1 haddop1**
-
-**192.168.1.15 haddop1**
-
-**192.168.1.20 haddop2**
-
-**192.168.1.25 haddop3**
+      #127.0.1.1 haddop1
+      192.168.1.15 haddop1
+      192.168.1.20 haddop2
+      192.168.1.25 haddop3
    
 
 ### Установка Java
@@ -74,17 +71,15 @@ Hadoop разработан на языке программирования Jav
 
 Выполняем команду:
 
-``apt install default-jdk``
+      apt install default-jdk
 Готово. Смотрим версию установленной java:
 
-``java -version``
+      java -version
 Мы должны увидеть что-то похожее на:
 
-**openjdk version "11.0.13" 2021-10-19**
-
-**OpenJDK Runtime Environment (build 11.0.13+8-Ubuntu-0ubuntu1.20.04)**
-
-**OpenJDK 64-Bit Server VM (build 11.0.13+8-Ubuntu-0ubuntu1.20.04, mixed mode, sharing)**
+      openjdk version "11.0.13" 2021-10-19
+      OpenJDK Runtime Environment (build 11.0.13+8-Ubuntu-0ubuntu1.20.04)
+      OpenJDK 64-Bit Server VM (build 11.0.13+8-Ubuntu-0ubuntu1.20.04, mixed mode, sharing)
 
 ### Установка Hadoop
 
@@ -95,52 +90,45 @@ Hadoop разработан на языке программирования Jav
 Переходим на страницу загрузки Hadoop и кликаем по ссылке для скачивания нужной версии программного обеспечения.
 Копируем ссылку на загрузку архива и, используя эту ссылку, загружаем на наши серверы архив:
 
-``wget https://dlcdn.apache.org/hadoop/common/hadoop-3.3.1/hadoop-3.3.1.tar.gz``
+      wget https://dlcdn.apache.org/hadoop/common/hadoop-3.3.1/hadoop-3.3.1.tar.gz
 
 
 ### Установка и настройка среды
 
 Создадим каталог, в который поместим файлы приложения:
 
-``mkdir /usr/local/hadoop``
+      mkdir /usr/local/hadoop
 
 Распаковываем содержимое загруженного архива в созданный каталог:
 
-``tar -zxf hadoop-*.tar.gz -C /usr/local/hadoop --strip-components 1``
+      tar -zxf hadoop-*.tar.gz -C /usr/local/hadoop --strip-components 1
 
 Создаем пользователя hadoop:
 
-``useradd hadoop -m``
+      useradd hadoop -m
 
 И зададим ему пароль:
 
-``passwd hadoop``
+      passwd hadoop
 
 Задаем в качестве владельца каталога hadoop созданного пользователя:
 
-``chown -R hadoop:hadoop /usr/local/hadoop``
+      chown -R hadoop:hadoop /usr/local/hadoop
 
 Создаем файл с профилем:
 
-``_vi /etc/profile.d/hadoop.sh``
+      vi /etc/profile.d/hadoop.sh
 
 _Добавляемый текст:_
 
-**export HADOOP_HOME=/usr/local/hadoop**
-
-**export HADOOP_HDFS_HOME=$HADOOP_HOME**
-
-**export HADOOP_MAPRED_HOME=$HADOOP_HOME**
-
-**export HADOOP_COMMON_HOME=$HADOOP_HOME**
-
-**export HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native**
-
-**export HADOOP_OPTS="$HADOOP_OPTS -Djava.library.path=$HADOOP_HOME/lib/native"**
-
-**export YARN_HOME=$HADOOP_HOME**
-
-**export PATH="$PATH:${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin"**
+      export HADOOP_HOME=/usr/local/hadoop
+      export HADOOP_HDFS_HOME=$HADOOP_HOME
+      export HADOOP_MAPRED_HOME=$HADOOP_HOME
+      export HADOOP_COMMON_HOME=$HADOOP_HOME
+      export HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
+      export HADOOP_OPTS="$HADOOP_OPTS -Djava.library.path=$HADOOP_HOME/lib/native"
+      export YARN_HOME=$HADOOP_HOME
+      export PATH="$PATH:${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin"
 
 Выше задаются системные переменные, требующиеся для работы hadoop:
 
@@ -162,15 +150,15 @@ _PATH_ — дополняет общую переменную PATH, где хр�
 
 Теперь откроем файл:
 
-``vi /usr/local/hadoop/etc/hadoop/hadoop-env.sh``
+      vi /usr/local/hadoop/etc/hadoop/hadoop-env.sh
 
 
 Находим:
 
-``# export JAVA_HOME=``
+      # export JAVA_HOME=
 Меняем на:
 
-``export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64``
+      export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 
 _Замечение:_
 Выше прописали актуальный путь до файлов openjdk.
@@ -180,55 +168,39 @@ _Замечение:_
 
 Заходим под пользователем hadoop:
 
-``su - hadoop``
+      su - hadoop
 
 
 Попробуем выполнить команду:
 
-``$ env | grep -i -E "hadoop|yarn"``
+      $ env | grep -i -E "hadoop|yarn"
 
 _Мы должны увидеть следующее:_
 
-**MAIL=/var/mail/hadoop**
-
-**USER=hadoop**
-
-**HADOOP_COMMON_HOME=/usr/local/hadoop**
-
-**HOME=/home/hadoop**
-
-**HADOOP_COMMON_LIB_NATIVE_DIR=/usr/local/hadoop/lib/native**
-
-**LOGNAME=hadoop**
-
-**PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/hadoop/bin:/usr/local/hadoop/sbin**
-
-**YARN_HOME=/usr/local/hadoop**
-
-**HADOOP_MAPRED_HOME=/usr/local/hadoop**
-
-**HADOOP_HDFS_HOME=/usr/local/hadoop**
-
-**HADOOP_HOME=/usr/local/hadoop**
+      MAIL=/var/mail/hadoop
+      USER=hadoop
+      HADOOP_COMMON_HOME=/usr/local/hadoop
+      HOME=/home/hadoop
+      HADOOP_COMMON_LIB_NATIVE_DIR=/usr/local/hadoop/lib/native
+      LOGNAME=hadoop
+      PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/hadoop/bin:/usr/local/hadoop/sbin
+      YARN_HOME=/usr/local/hadoop
+      HADOOP_MAPRED_HOME=/usr/local/hadoop
+      HADOOP_HDFS_HOME=/usr/local/hadoop
+      HADOOP_HOME=/usr/local/hadoop
 
 Теперь вводим:
 
-``$ hadoop version``
+      $ hadoop version
 
 _Примерно, вывод команды будет таким:_
 
-**Hadoop 3.3.1**
-
-**Source code repository https://github.com/apache/hadoop.git -r a3b9c37a397ad4188041dd80621bdeefc46885f2**
-
-**Compiled by ubuntu on 2021-06-15T05:13Z**
-
-**Compiled with protoc 3.7.1**
-
-
-**From source with checksum 88a4ddb2299aca054416d6b7f81ca55**
-
-**This command was run using /usr/local/hadoop/share/hadoop/common/hadoop-common-3.3.1.jar**
+      Hadoop 3.3.1
+      Source code repository https://github.com/apache/hadoop.git -r a3b9c37a397ad4188041dd80621bdeefc46885f2
+      Compiled by ubuntu on 2021-06-15T05:13Z
+      Compiled with protoc 3.7.1
+      From source with checksum 88a4ddb2299aca054416d6b7f81ca55
+      This command was run using /usr/local/hadoop/share/hadoop/common/hadoop-common-3.3.1.jar
 
 Далее остаемся в системе под пользователем hadoop.
 
@@ -238,57 +210,53 @@ _Примерно, вывод команды будет таким:_
 
 На мастер-сервере вводим команду, чтобы создать ключи:
 
-``$ ssh-keygen``
+      $ ssh-keygen
 
 _Замечание:_ а все вопросы можно ответить по умолчанию, нажав Enter.
 
 Копируем публичный ключ на локальный компьютер:
 
-``$ ssh-copy-id localhost``
+      $ ssh-copy-id localhos
 
 При первом обращении по SSH будет запрос на принятие сертификата:
 
-_Are you sure you want to continue connecting (yes/no/[fingerprint])?_ **yes**
+      Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
 
 Система запросит ввести пароль для нашего пользователя hadoop. После успешного ввода, мы должны увидеть:
 
-**Number of key(s) added: 1**
-
-**Now try logging into the machine, with:   "ssh 'localhost'"**
-
-**and check to make sure that only the key(s) you wanted were added.**
+      Number of key(s) added: 1
+      Now try logging into the machine, with:   "ssh 'localhost'"
+      and check to make sure that only the key(s) you wanted were added.
 
 
 Теперь скопируем нужные ключи на остальные ноды кластера:
 
-``$ scp -r .ssh hadoop@haddop2:~``
-
-
-``$ scp -r .ssh hadoop@haddop3:~``
+      $ scp -r .ssh hadoop@haddop2:~
+      $ scp -r .ssh hadoop@haddop3:~
 
 В данном примере мы скопируем каталог .ssh на серверы haddop2 и haddop3, которые в нашем примере используются в качестве слейвов.
 
 Проверим вход в систему по ssh на все серверы — мы должны подключиться без запроса пароля:
 
-``$ ssh localhost``
+      $ ssh localhost
 
 После отключаемся:
 
-``$ exit``
+      $ exit
 
 B также подключаемся другим двум серверам:
 
-``$ ssh haddop2``
+      $ ssh haddop2
 
-``$ exit``
+      $ exit
 
-``$ ssh haddop3``
+      $ ssh haddop3
 
-``$ exit``
+      $ exit
 
 Установка и настройка Hadoop завершена. Возвращаемся в консоль первичного пользователя:
 
-``$ exit``
+      $ exit
 
 
 ## Настройка и запуск
@@ -299,7 +267,7 @@ B также подключаемся другим двум серверам:
 
 Открываем файл для общих настроек:
 
-``vi /usr/local/hadoop/etc/hadoop/core-site.xml``
+      vi /usr/local/hadoop/etc/hadoop/core-site.xml
 
 Приведем его к виду:
 
