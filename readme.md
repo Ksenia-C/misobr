@@ -177,3 +177,148 @@ _Замечение:_
 
 
 ### Проверка настройки среды
+
+Заходим под пользователем hadoop:
+
+``su - hadoop``
+
+
+Попробуем выполнить команду:
+
+``$ env | grep -i -E "hadoop|yarn"``
+
+_Мы должны увидеть следующее:_
+
+**MAIL=/var/mail/hadoop**
+
+**USER=hadoop**
+
+**HADOOP_COMMON_HOME=/usr/local/hadoop**
+
+**HOME=/home/hadoop**
+
+**HADOOP_COMMON_LIB_NATIVE_DIR=/usr/local/hadoop/lib/native**
+
+**LOGNAME=hadoop**
+
+**PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/hadoop/bin:/usr/local/hadoop/sbin**
+
+**YARN_HOME=/usr/local/hadoop**
+
+**HADOOP_MAPRED_HOME=/usr/local/hadoop**
+
+**HADOOP_HDFS_HOME=/usr/local/hadoop**
+
+**HADOOP_HOME=/usr/local/hadoop**
+
+Теперь вводим:
+
+``$ hadoop version``
+
+_Примерно, вывод команды будет таким:_
+
+**Hadoop 3.3.1**
+
+**Source code repository https://github.com/apache/hadoop.git -r a3b9c37a397ad4188041dd80621bdeefc46885f2**
+
+**Compiled by ubuntu on 2021-06-15T05:13Z**
+
+**Compiled with protoc 3.7.1**
+
+
+**From source with checksum 88a4ddb2299aca054416d6b7f81ca55**
+
+**This command was run using /usr/local/hadoop/share/hadoop/common/hadoop-common-3.3.1.jar**
+
+Далее остаемся в системе под пользователем hadoop.
+
+### Создание сертификатов
+
+Для работы hadoop нужен сертификат, так как внутренние обращения выполняются с помощью запросов ssh. Нам нужно сгенерировать его на одном из серверов и скопировать на остальные.
+
+На мастер-сервере вводим команду, чтобы создать ключи:
+
+``$ ssh-keygen``
+
+_Замечание:_ а все вопросы можно ответить по умолчанию, нажав Enter.
+
+Копируем публичный ключ на локальный компьютер:
+
+``$ ssh-copy-id localhost``
+
+При первом обращении по SSH будет запрос на принятие сертификата:
+
+_Are you sure you want to continue connecting (yes/no/[fingerprint])?_ **yes**
+
+Система запросит ввести пароль для нашего пользователя hadoop. После успешного ввода, мы должны увидеть:
+
+**Number of key(s) added: 1**
+
+**Now try logging into the machine, with:   "ssh 'localhost'"**
+
+**and check to make sure that only the key(s) you wanted were added.**
+
+
+Теперь скопируем нужные ключи на остальные ноды кластера:
+
+``$ scp -r .ssh hadoop@haddop2:~``
+
+
+``$ scp -r .ssh hadoop@haddop3:~``
+
+В данном примере мы скопируем каталог .ssh на серверы haddop2 и haddop3, которые в нашем примере используются в качестве слейвов.
+
+Проверим вход в систему по ssh на все серверы — мы должны подключиться без запроса пароля:
+
+``$ ssh localhost``
+
+После отключаемся:
+
+``$ exit``
+
+B также подключаемся другим двум серверам:
+
+``$ ssh haddop2``
+
+``$ exit``
+
+``$ ssh haddop3``
+
+``$ exit``
+
+Установка и настройка Hadoop завершена. Возвращаемся в консоль первичного пользователя:
+
+``$ exit``
+
+
+## Настройка и запуск
+
+Отредактируем некоторые конфигурационные файлы (на всех узлах кластера), выполним пробный запуск и настроим сервис для автозапуска. 
+
+### Настройка
+
+Открываем файл для общих настроек:
+
+``vi /usr/local/hadoop/etc/hadoop/core-site.xml``
+
+Приведем его к виду:
+
+<!-- Put site-specific property overrides in this file. -->
+
+<configuration>
+   
+   <property>
+   
+      <name>fs.default.name</name>
+      
+      <value>hdfs://hadoop1:9000</value>
+   
+   </property>
+
+</configuration>
+
+* где fs.default.name указывает на узел и порт обращения к внутренней файловой системе. В нашем примере на мастер-сервер (localhost) порту 9000. Данная настройка должна быть такой на всех нодах.
+
+Редактируем файл с настройками файловой системы HDFS:
+
+``vi /usr/local/hadoop/etc/hadoop/hdfs-site.xml``
