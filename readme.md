@@ -1,4 +1,6 @@
 ## Проект команды номер 1
+
+## Инструкция по выполнению задания 1
 ## Состав группы:
 Копылов Олег
 
@@ -423,4 +425,47 @@ _dfs.data.dir_ — каталог для хранения блоков файл�
 
       systemctl enable hadoop
 Для проверки можно перезагрузить сервер.
+
+
+## Работа с файлом
+Загрузим файл
+
+            scp "/home/ksenia/Documents/uc/Отчет UX 5 команда.pdf"  team1@91.185.86.253:/home/team1/file.txt     
+            
+            cp file.txt /home/hadoop/file.txt
+
+            hdfs dfs -mkdir /misobr
+            
+            hdfs dfs -ls /
+            
+            hdfs dfs -put file.txt /misobr/file.txt
+
+Убедимся, что он отображается
+
+            hadoop@mts-hse-de-course-team-1-1:~$ hdfs dfs -ls /misobr
+            Found 1 items
+            -rw-r--r--   1 hadoop supergroup     114592 2023-10-04 18:03 /misobr/file.txt
+
+
+            hadoop@mts-hse-de-course-team-1-1:~$ hdfs dfs -ls -h /misobr
+            Found 1 items
+            -rw-r--r--   1 hadoop supergroup    111.9 K 2023-10-04 18:03 /misobr/file.txt
+            hadoop@mts-hse-de-course-team-1-1:~$ hdfs dfs -ls  /misobr
+            Found 1 items
+            -rw-r--r--   1 hadoop supergroup     114592 2023-10-04 18:03 /misobr/file.txt
+
+            hadoop@mts-hse-de-course-team-1-1:~$ hdfs dfs -dus /misobr/file.txt
+            dus: DEPRECATED: Please use 'du -s' instead.
+            114592  114592  /misobr/file.txt
+            hadoop@mts-hse-de-course-team-1-1:~$ hdfs dfs -du -s /misobr/file.txt
+            114592  114592  /misobr/file.txt
+            hadoop@mts-hse-de-course-team-1-1:~$ ls
+            file.txt
+            hadoop@mts-hse-de-course-team-1-1:~$ ls -a
+            .  ..  .bash_logout  .bashrc  .cache  file.txt  .profile  .ssh  .viminfo
+            hadoop@mts-hse-de-course-team-1-1:~$ hdfs dfs -count -q /misobr/file.txt
+
+            
+            
+
 
