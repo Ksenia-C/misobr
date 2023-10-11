@@ -19,11 +19,6 @@
 
 Богачева Анна
 
-## Cсылки на видео
-
-1. https://drive.google.com/file/d/1GGMwzREZXmQofccP3v6qbKrvU_4dO4LJ/view?usp=sharing
-
-2. https://drive.google.com/file/d/1hx5A8w10FsiXLEHu3Cakvhg0vIppEcF7/view?usp=sharing
 
 ### Подготовка операционной системы
 
