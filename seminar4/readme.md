@@ -12,4 +12,4 @@ user	1m0.576s
 sys	0m2.628s
 ```
 
-Замер ресурсов записали на видео: 
+Замер ресурсов записали на видео: https://drive.google.com/file/d/15aMC3XyDOc7Jyu1nuhe5pQuJBnzrB8pE/view?usp=sharing
