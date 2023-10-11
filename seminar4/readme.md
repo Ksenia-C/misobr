@@ -13,3 +13,7 @@ sys	0m2.628s
 ```
 
 Замер ресурсов записали на видео: https://drive.google.com/file/d/15aMC3XyDOc7Jyu1nuhe5pQuJBnzrB8pE/view?usp=sharing
+
+# Запуск MapReduce на Hadoop Standalone:
+
+# Запуск MapReduce на кластере Hadoop:
