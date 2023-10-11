@@ -76,3 +76,4 @@ hadoop fs -put many_files /hadoop_many_files
 Замерили изменение ресурсов во время загрузки: https://drive.google.com/file/d/1TVmG0gV_RNvcSPeFzy8wtYW9WqfXBRIL/view?usp=sharing
 
 Результаты можно увидеть в UI: http://77.105.185.69:9870/explorer.html#/
+
