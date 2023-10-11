@@ -53,13 +53,15 @@ hadoop fs -put table.csv /hadoop_table.csv
 
 Как видим, DISK везде увеличился на размер файла
 
+Замерили рес
+
 Помещаем много файлов суммарным весом в гигабайт в hadoop fs:
 
 ```bash
 hadoop fs -put many_files /hadoop_many_files
 ```
 
-Изменение ресурсов
+Замерили изменение ресурсов во время загрузки: https://drive.google.com/file/d/17FlmHP65rJ4zvdck47dr65wQ6HPY7E9M/view?usp=sharing
 
 На NameNode:
 ![image](https://github.com/Ksenia-C/misobr/assets/50082204/a3d2108c-6454-44cd-a5bf-1e53b65dd268)
@@ -70,5 +72,7 @@ hadoop fs -put many_files /hadoop_many_files
 ![image](https://github.com/Ksenia-C/misobr/assets/50082204/a5a55d26-a7e2-4b59-b9bc-c0664d355a8b)
 
 Как видим DISK везде увеличился на размер папки с файлами, а также возросло количество блоков
+
+Замерили изменение ресурсов во время загрузки: https://drive.google.com/file/d/1TVmG0gV_RNvcSPeFzy8wtYW9WqfXBRIL/view?usp=sharing
 
 Результаты можно увидеть в UI: http://77.105.185.69:9870/explorer.html#/
