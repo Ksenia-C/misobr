@@ -15,12 +15,13 @@ default_args = {
             'catchup': False
 }
 
-dag = DAG(dag_id='team1_debug_dag.v.0',
+dag = DAG(dag_id='team1_release_dag.v.0',
           default_args=default_args,
-          schedule_interval='50 * * * *',
+          schedule_interval=None,
+          catchup=False,
           dagrun_timeout=timedelta(seconds=120))
 
-t1_bash = """wget -O very_small_file.zip 'https://drive.google.com/uc?id=1wVCQDKxsSGwqlJKQTemq2_0kLTRQV-8u&export=download'
+t1_bash = """wget 'https://drive.google.com/uc?id=1wVCQDKxsSGwqlJKQTemq2_0kLTRQV-8u&export=download' -O very_small_file.zip
 """
 t2_bash = "unzip -o very_small_file.zip"
 
