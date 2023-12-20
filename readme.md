@@ -6,9 +6,7 @@
 Первый семинар был вводным, поэтому начинаем с файла seminar2.md.
 
 
-**Сделаны** seminar2 и seminar3.
-
-**В работе** seminar4.
+**Сделаны** seminar2, seminar3, seminar4, seminar 5.
 
 ## Состав группы:
 
